@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="Description" content="Web site for the NSF NetSE project" />
+<link rel="stylesheet" type="text/css" href="/media/default.css" />
+<script type="text/javascript" src="/template/js/jquery.js"></script>
+<title>{% block pageheader %}Home{% endblock %} (FieldStream)</title>
+</head>
+
+<body id="body" class=" en">
+<div id="sites-page-toolbar">
+<div id="sites-status" class="sites-status" style="display:none;">
+<div id="sites-notice" class="sites-notice"> </div>
+</div>
+</div>
+<div id="sites-chrome-everything" style="direction: ltr">
+<div id="sites-chrome-page-wrapper">
+<div id="sites-chrome-page-wrapper-inside">
+<div xmlns="http://www.w3.org/1999/xhtml" id="sites-chrome-header-wrapper">
+<table id="sites-chrome-header" class="sites-layout-hbox" cellspacing="0">
+<tr class="sites-header-primary-row">
+<td id="sites-header-title">
+<h2>{% block sitetitle %}<a href="http://www.fieldstream.org/" dir="ltr">FieldStream DB</a>{% endblock %}</h2>
+</td>
+<td class="sites-layout-searchbox">
+<div>
+{% block login %}
+
+ {% if user.is_authenticated %}
+ <p style="color: white;">Welcome {{ user.first_name }}! <a href="/logout/" class="topLevel">Sign out</a></p>
+ {% else %}
+ <p style="color: white;">You are currently not logged in. <a href="/login/" style="color: white;">Sign in.</a></p>
+ {% endif %}
+
+{% endblock %}
+</div>
+</td>
+</tr>
+</table> 
+</div> 
+
+<div id="sites-chrome-main-wrapper">
+<div id="sites-chrome-main-wrapper-inside">
+<table id="sites-chrome-main" class="sites-layout-hbox" cellspacing="0">
+<tr>
+<td id="sites-chrome-sidebar-left" class="sites-layout-sidebar-left">
+<div xmlns="http://www.w3.org/1999/xhtml" id="COMP_2bd" class="sites-embed">
+<div class="sites-embed-content sites-sidebar-nav ">
+{% block sidebar %}
+<ul>
+  <li class="topLevel nav-first"><div class="current-bg" dir="ltr" style="padding-left: 19px;"><a href="/" class="topLevel">Home</a></div></li>
+
+{% if user.is_authenticated %}
+  
+  <li class="topLevel parent"><div dir="ltr" style="padding-left: 19px;"><a href="/studies/" class="topLevel">My Studies</a></div></li>
+
+  <li class="topLevel parent"><div dir="ltr" style="padding-left: 19px;"><a href="/snview/" class="topLevel">My Sensors</a></div>
+    <ul>
+      <li class=""><div dir="ltr" style="padding-left: 38px;"><a href="/scview/" >My Sensor Channels</a></div></li>
+    </ul>
+  </li>
+  
+  <li class="topLevel parent"><div dir="ltr" style="padding-left: 19px;"><a href="/wssview/" class="topLevel">My Wave Segment Series</a></div></li>
+  
+  <li class="topLevel parent"><div dir="ltr" style="padding-left: 19px;"><a href="/privacy/" class="topLevel">My Privacy</a></div></li>
+
+  <li class="topLevel parent"><div dir="ltr" style="padding-left: 19px;"><a href="/query/" class="topLevel">Query Builder</a></div></li>
+
+  <li class="topLevel parent"><div dir="ltr" style="padding-left: 19px;"><a href="/updateprof/" class="topLevel">Profile</a></div></li>
+
+  <li class="topLevel parent"><div dir="ltr" style="padding-left: 0px;"><div class="expander"></div><a href="/mappings/" class="topLevel">Mappings</a></div>
+    <ul>
+      <li class=""><div dir="ltr" style="padding-left: 38px;"><a href="/mappings/time/" >Time</a></div></li>
+      <li class=""><div dir="ltr" style="padding-left: 38px;"><a href="/mappings/location/" >Location</a></div></li>
+      <li class=""><div dir="ltr" style="padding-left: 38px;"><a href="/scmview/" >Wave Segment Series to Sensor Channel</a></div></li>
+    </ul>
+  </li>
+
+  <li>&nbsp;</li>
+  <li>&nbsp;</li>
+  <li>&nbsp;</li>
+
+  <li class="topLevel parent"><div dir="ltr" style="padding-left: 19px;"><a href="/logout/" class="topLevel">Sign out</a></div></li>
+
+{% else %}
+
+  <li class="topLevel parent"><div dir="ltr" style="padding-left: 19px;"><a href="/login/" class="topLevel">Sign in</a></div></li>
+
+{% endif %}
+{# Following are some more examples for sub-levels of entries. #}
+</ul>
+{% endblock %}
+
+  
+</div>
+</div>
+</td>
+
+<td id="sites-canvas-wrapper">
+<div id="sites-canvas">
+<div id="goog-ws-editor-toolbar-container"> </div>
+<div xmlns="http://www.w3.org/1999/xhtml" id="title-crumbs" style="">
+</div>
+<h3 xmlns="http://www.w3.org/1999/xhtml" id="sites-page-title-header" style="" align="left">
+<span id="sites-page-title" dir="ltr">{% block title %}Home{% endblock %}</span>
+</h3>
+
+<div id="sites-canvas-main" class="sites-canvas-main">
+<div id="sites-canvas-main-content">
+  <table xmlns="http://www.w3.org/1999/xhtml" cellspacing="0" class="sites-layout-name-one-column sites-layout-hbox">
+    <tbody>
+      <tr>
+        <td class="sites-layout-tile sites-tile-name-content-1">
+  {% block main %}For more information on the FieldStream project, please visit <a href="http://www.fieldstream.org">http://www.fieldstream.org</a>.{% endblock %}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div> 
+</div> 
+
+<div id="sites-canvas-bottom-panel">
+<div xmlns="http://www.w3.org/1999/xhtml" id="COMP_page-subpages"> </div>
+</div>
+</div> 
+</td> 
+</tr>
+</table> 
+</div> 
+</div> 
+
+<div id="sites-chrome-footer-wrapper">
+<div id="sites-chrome-footer-wrapper-inside">
+<div id="sites-chrome-footer">
+<div xmlns="http://www.w3.org/1999/xhtml" class="sites-subfooter">
+<p>
+{% block footer %}
+ <a class="sites-system-link" href="http://nesl.ee.ucla.edu">NESL</a>
+  |
+ <a class="sites-system-link" href="http://www.ucla.edu">UCLA</a>
+{% endblock %}
+
+<b class="powered-by" style="position:absolute; right:7.5%;">Template by <a class="sites-system-link" href="http://sites.google.com">Google Sites</a></b>
+</p>
+</div>
+</div>
+</div>
+</div>
+</div> 
+</div> 
+</div> 
+
+</body>
+</html>

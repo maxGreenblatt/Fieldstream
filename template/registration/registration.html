@@ -1,0 +1,30 @@
+{% extends "/home/max/spotlight/spotlightdb/template/main.html" %}
+
+{% block pageheader %}Registration{% endblock %}
+
+
+{% block main %}
+
+{% if form.errors %}
+<p style="color: red;">Either your passwords didn't match or that username is taken. Please try again.</p>
+{% endif %}
+
+<form method="post" action="/register/">
+<table>
+{% for field in form %}
+  <tr><th>
+  {{field.errors}}
+  {{field.label_tag}}:
+  </th>
+  <th>
+  {{field}}
+  </th></tr>
+{% endfor %}
+</table>
+<input type="submit" name="Submit" value="Submit" />
+</form>
+
+{% endblock %}
+
+{% block title %}Registration{% endblock %}
+

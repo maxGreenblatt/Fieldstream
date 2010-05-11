@@ -1,0 +1,109 @@
+{% extends "/home/max/spotlight/spotlightdb/template/main.html" %}
+
+
+{% block pageheader %}Sensor Channel{% endblock %}
+
+
+{% block main %}
+<script type="text/javascript" src="/template/js/rulesForm.js"></script>
+
+{% if form.errors %}
+<p style="color: red;">{{ form.errors }} </p>
+{% endif %}
+
+<form name='ruleForm' method="post" action="/rules/">
+
+<div id='form_Type_Q' style='display:;'>
+   <label for="id_form_Type">Which form Would you like to Use?</label>
+   {{ form.form_Type }}
+</div>
+
+<div id='robustForm' style='display:;'>
+<table>
+<tbody>
+<tr>
+  <th><label for="id_condition">Condition:</label></th>
+  <td>{{ form.condition }}</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<div id="simpleForm" style='display:;'>
+<dl id='1_dl'>
+   <dt id ='1_dl_dt' style=''>
+      <select id='1_dl_dt_CS' onChange='condSelect(this)'>
+         <option value=-1></option>
+         <option value=0>AND</option>
+         <option value=1>OR</option>
+         <option value=2>Data Consumer</option>
+         <option value=3>Sensor</option>
+         <option value=4>Time</option>
+         <option value=5>Location</option>
+         <option value=6>Value</option>
+      </select>
+   </dt>
+</dl>
+</div>
+
+<br><br>
+
+<table>
+<tbody>
+<tr>
+  <th><label for="id_action">Action:</label></th>
+  <td>
+  {{ form.action }}
+  </td>
+</tr>
+<tr id='calculation' style='display:none;'>
+  <th><label for="id_calculation">Modification:</label></th>
+  <td>{{ form.calculation }}</td>
+</tr>
+</tbody>
+</table>
+{{ form.hidden_id }}
+<div style = 'float: left'>
+<input type="submit" name="Submit" value="Submit" />
+</div>
+<input type="hidden" id='jscript_hidden' value=1>
+</form>
+
+<br><br>
+
+<table>
+  <tr>
+    <th>
+      <h4>Condition</h4>
+    </th>
+    <th>
+      <h4>Action</h4>
+    </th>
+    <th>
+      <h4>Modification</h4>
+    </th>
+    <th>
+    </th>
+  </tr>
+{% for rule in userData %}
+  <tr>
+      <th>
+        {{ rule.condition }}        
+      </th>
+      <th>
+        {{ rule.action }}        
+      </th>
+      <th>
+        {{ rule.calculation }}        
+      </th>
+      <th>
+      <a href = '/rules/{{ rule.id }}'>Edit</a>
+      </th>
+  </tr>
+{% endfor %}
+</table>
+
+{% endblock %}
+
+{% block title %}Sensor Channel{% endblock %}
+

@@ -1,0 +1,57 @@
+{% extends "/home/max/spotlight/spotlightdb/template/main.html" %}
+
+{% block pageheader %}Login{% endblock %}
+
+
+{% block login %}
+{% endblock %}
+
+{% block sidebar %}
+<ul>
+
+  <li class="topLevel nav-first"><div dir="ltr" style="padding-left: 19px;"><a href="/" class="topLevel">Home</a></div></li>
+
+  <li class="topLevel parent"><div class="current-bg" dir="ltr" style="padding-left: 19px;">Sign in</div></li>
+
+</ul>
+{% endblock %}
+
+{% block title %}Login{% endblock %}
+
+{% block main %}
+
+<form method="post" action="{% url django.contrib.auth.views.login %}">
+<table class="login">
+ <tr>
+  <td>
+    <div>{{ form.username.label_tag }}</div>
+  </td>
+  <td>
+    {{ form.username }}
+  </td>
+ </tr>
+ <tr>
+  <td>
+ 
+    <div>{{ form.password.label_tag }}</div>
+  </td>
+  <td>
+    {{ form.password }}
+  </td>
+ </tr>
+ <tr>
+  <td></td>
+  <td>
+    <input type="submit" value="login" />
+  </td>
+ </tr>
+</table>
+<input type="hidden" name="next" value="{{ next }}" />
+</form>
+
+{% if form.errors %}
+<p style="color: red;">Your username and password didn't match. Please try again.</p>
+{% endif %}
+<p> Please login with your username and password, or <a href="/register">register</a> a new user.</p>
+
+{% endblock %}

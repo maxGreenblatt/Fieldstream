@@ -1,0 +1,72 @@
+{% extends "/home/max/spotlight/spotlightdb/template/main.html" %}
+
+{% block pageheader %}Sensor Channel{% endblock %}
+
+
+{% block main %}
+<script language="JavaScript">
+  function showHideField()
+  {
+    var sel = document.getElementById('id_non_Numeric')
+    if (sel.checked == true)
+    {
+      document.getElementById('opts').style.display = '';
+    }
+    else
+    {
+      document.getElementById('opts').style.display = 'none';
+    }
+  }
+</script>
+<body onLoad='showHideField()'></body>
+
+{% if form.errors %}
+{{ form.errors }}
+{% endif %}
+
+<form method="post" action="/scupdate/">
+<table>
+<tbody>
+<tr>
+  <th><label for="id_channel_Name">Channel Name:</label></th>
+  <td>{{ form.channel_Name }}</td>
+</tr>
+<tr>
+  <th><label for="id_sensor_Node">Sensor Node:</label></th>
+  <td>{{ form.sensor_Node }}</td>
+</tr>
+<tr>
+  <th><label for="id_channel_Placement">Channel Placement:</label></th>
+  <td>{{ form.channel_Placement }}</td>
+</tr>
+<tr>
+  <th><label for="id_non_Numeric">Non-Numeric Sensor?</label></th>
+  <td>{{ form.non_Numeric }}</td>
+</tr>
+<tr id='opts' style='display:none;'>
+  <th><label for="id_non_Numeric_Options">Non-Numeric Options:</label></th>
+  <td>{{ form.non_Numeric_Options }} </td>
+  {{ form.hidden_id }}
+</tr>
+</tbody>
+</table>
+<input type="submit" name="Submit" value="Create New Sensor Channel" />
+</form>
+
+<ul>
+{% for node in userData %}
+  <li>
+      <a href = '/snupdate/{{ node.nodeData.id }}'>{{ node.nodeData.name }}</a>
+      <ul>
+        {% for id, name in node.channelData %}
+          <li><a href = '/scupdate/{{ id }}'>{{ name }}</a></li>        
+        {% endfor %}
+      </ul>
+  </li>
+{% endfor %}
+</ul>
+
+{% endblock %}
+
+{% block title %}Sensor Channel{% endblock %}
+

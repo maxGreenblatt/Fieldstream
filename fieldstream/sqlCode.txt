@@ -1,0 +1,120 @@
+BEGIN;
+CREATE TABLE `fieldstream_userprofile` (
+    `id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    `userID_id` integer NOT NULL UNIQUE,
+    `isGroup` bool NOT NULL,
+    `groupOwner_id` integer,
+    `privAPIKey` longtext NOT NULL,
+    `pubAPIKey` longtext NOT NULL
+)
+;
+ALTER TABLE `fieldstream_userprofile` ADD CONSTRAINT `userID_id_refs_id_8bea73c2` FOREIGN KEY (`userID_id`) REFERENCES `auth_user` (`id`);
+ALTER TABLE `fieldstream_userprofile` ADD CONSTRAINT `groupOwner_id_refs_id_8bea73c2` FOREIGN KEY (`groupOwner_id`) REFERENCES `auth_user` (`id`);
+CREATE TABLE `fieldstream_relationship` (
+    `id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    `metaGroup_id` integer NOT NULL,
+    `member_id` integer NOT NULL,
+    `isMemberProducer` bool NOT NULL
+)
+;
+ALTER TABLE `fieldstream_relationship` ADD CONSTRAINT `metaGroup_id_refs_id_9f7ae929` FOREIGN KEY (`metaGroup_id`) REFERENCES `auth_user` (`id`);
+ALTER TABLE `fieldstream_relationship` ADD CONSTRAINT `member_id_refs_id_9f7ae929` FOREIGN KEY (`member_id`) REFERENCES `auth_user` (`id`);
+CREATE TABLE `fieldstream_locationmapping` (
+    `id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    `name` varchar(255) NOT NULL,
+    `group_id` integer NOT NULL,
+    `locationX` double precision NOT NULL,
+    `locationY` double precision NOT NULL,
+    `locationH` double precision NOT NULL,
+    `radius` double precision NOT NULL
+)
+;
+ALTER TABLE `fieldstream_locationmapping` ADD CONSTRAINT `group_id_refs_id_109df9f7` FOREIGN KEY (`group_id`) REFERENCES `auth_user` (`id`);
+CREATE TABLE `fieldstream_timemapping` (
+    `id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    `name` varchar(255) NOT NULL,
+    `group_id` integer NOT NULL,
+    `rangeStart` time NOT NULL,
+    `rangeEnd` time NOT NULL
+)
+;
+ALTER TABLE `fieldstream_timemapping` ADD CONSTRAINT `group_id_refs_id_1be799e1` FOREIGN KEY (`group_id`) REFERENCES `auth_user` (`id`);
+CREATE TABLE `fieldstream_placement` (
+    `id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    `name` varchar(255) NOT NULL,
+    `group_id` integer NOT NULL
+)
+;
+ALTER TABLE `fieldstream_placement` ADD CONSTRAINT `group_id_refs_id_c3ecd81d` FOREIGN KEY (`group_id`) REFERENCES `auth_user` (`id`);
+CREATE TABLE `fieldstream_sensornode` (
+    `id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    `name` varchar(255) NOT NULL,
+    `owner_id` integer NOT NULL
+)
+;
+ALTER TABLE `fieldstream_sensornode` ADD CONSTRAINT `owner_id_refs_id_a508ac73` FOREIGN KEY (`owner_id`) REFERENCES `auth_user` (`id`);
+CREATE TABLE `fieldstream_sensorchannel` (
+    `id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    `name` varchar(255) NOT NULL,
+    `sensorNode_id` integer NOT NULL,
+    `placement_id` integer
+)
+;
+ALTER TABLE `fieldstream_sensorchannel` ADD CONSTRAINT `sensorNode_id_refs_id_997ad5b` FOREIGN KEY (`sensorNode_id`) REFERENCES `fieldstream_sensornode` (`id`);
+ALTER TABLE `fieldstream_sensorchannel` ADD CONSTRAINT `placement_id_refs_id_aa2a61c3` FOREIGN KEY (`placement_id`) REFERENCES `fieldstream_placement` (`id`);
+CREATE TABLE `fieldstream_wavesegseries` (
+    `id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    `name` varchar(255) NOT NULL,
+    `owner_id` integer NOT NULL
+)
+;
+ALTER TABLE `fieldstream_wavesegseries` ADD CONSTRAINT `owner_id_refs_id_ad486587` FOREIGN KEY (`owner_id`) REFERENCES `auth_user` (`id`);
+CREATE TABLE `fieldstream_serieschannelmap` (
+    `id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    `sensorChannel_id` integer NOT NULL,
+    `waveSegSeries_id` integer NOT NULL
+)
+;
+ALTER TABLE `fieldstream_serieschannelmap` ADD CONSTRAINT `sensorChannel_id_refs_id_375df53b` FOREIGN KEY (`sensorChannel_id`) REFERENCES `fieldstream_sensorchannel` (`id`);
+ALTER TABLE `fieldstream_serieschannelmap` ADD CONSTRAINT `waveSegSeries_id_refs_id_2f878ad1` FOREIGN KEY (`waveSegSeries_id`) REFERENCES `fieldstream_wavesegseries` (`id`);
+CREATE TABLE `fieldstream_waveseg` (
+    `id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    `waveSegSeries_id` integer NOT NULL,
+    `startTime` datetime,
+    `sampleInterval` double precision,
+    `staticLocationX` double precision,
+    `staticLocationY` double precision,
+    `staticLocationH` double precision,
+    `values` longtext NOT NULL
+)
+;
+ALTER TABLE `fieldstream_waveseg` ADD CONSTRAINT `waveSegSeries_id_refs_id_3ba02164` FOREIGN KEY (`waveSegSeries_id`) REFERENCES `fieldstream_wavesegseries` (`id`);
+CREATE TABLE `fieldstream_statistics` (
+    `id` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    `waveSegID_id` integer NOT NULL,
+    `channelID_id` integer NOT NULL,
+    `min` double precision NOT NULL,
+    `max` double precision NOT NULL,
+    `mean` double precision NOT NULL,
+    `median` double precision NOT NULL,
+    `std` double precision NOT NULL
+)
+;
+ALTER TABLE `fieldstream_statistics` ADD CONSTRAINT `waveSegID_id_refs_id_3b722c51` FOREIGN KEY (`waveSegID_id`) REFERENCES `fieldstream_waveseg` (`id`);
+ALTER TABLE `fieldstream_statistics` ADD CONSTRAINT `channelID_id_refs_id_dcac66e` FOREIGN KEY (`channelID_id`) REFERENCES `fieldstream_sensorchannel` (`id`);
+CREATE INDEX `fieldstream_userprofile_groupOwner_id` ON `fieldstream_userprofile` (`groupOwner_id`);
+CREATE INDEX `fieldstream_relationship_metaGroup_id` ON `fieldstream_relationship` (`metaGroup_id`);
+CREATE INDEX `fieldstream_relationship_member_id` ON `fieldstream_relationship` (`member_id`);
+CREATE INDEX `fieldstream_locationmapping_group_id` ON `fieldstream_locationmapping` (`group_id`);
+CREATE INDEX `fieldstream_timemapping_group_id` ON `fieldstream_timemapping` (`group_id`);
+CREATE INDEX `fieldstream_placement_group_id` ON `fieldstream_placement` (`group_id`);
+CREATE INDEX `fieldstream_sensornode_owner_id` ON `fieldstream_sensornode` (`owner_id`);
+CREATE INDEX `fieldstream_sensorchannel_sensorNode_id` ON `fieldstream_sensorchannel` (`sensorNode_id`);
+CREATE INDEX `fieldstream_sensorchannel_placement_id` ON `fieldstream_sensorchannel` (`placement_id`);
+CREATE INDEX `fieldstream_wavesegseries_owner_id` ON `fieldstream_wavesegseries` (`owner_id`);
+CREATE INDEX `fieldstream_serieschannelmap_sensorChannel_id` ON `fieldstream_serieschannelmap` (`sensorChannel_id`);
+CREATE INDEX `fieldstream_serieschannelmap_waveSegSeries_id` ON `fieldstream_serieschannelmap` (`waveSegSeries_id`);
+CREATE INDEX `fieldstream_waveseg_waveSegSeries_id` ON `fieldstream_waveseg` (`waveSegSeries_id`);
+CREATE INDEX `fieldstream_statistics_waveSegID_id` ON `fieldstream_statistics` (`waveSegID_id`);
+CREATE INDEX `fieldstream_statistics_channelID_id` ON `fieldstream_statistics` (`channelID_id`);
+COMMIT;

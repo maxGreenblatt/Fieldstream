@@ -1,0 +1,35 @@
+{ 
+"WaveSegSeries": 1,
+"WaveSeg": [
+	{
+		"StartTime": 1263274033.812, 
+		"SamplingInterval": 3.0, 
+		"StaticLocation": { "X": 34.0132641, "Y": -118.4165829, "Z": null },
+		"ValueBlobFormat": [ "Time", "X", "Y", "Z", "RealPower 1", "Voltage 1", "Current 1", "PowerFactor 1", "ReactivePower 1" ],
+		"ValueBlob": [ 
+			[1265149450.5, null, null, null, 0, 121000, 0, 0, 0],
+			[1265149450.5, null, null, null, 0, 121000, 0, 0, 0],
+			[1265149450.5, null, null, null, 0, 121000, 0, 0, 0],
+			[1265149450.5, null, null, null, 0, 121000, 0, 0, 0],
+			[1265149450.5, null, null, null, 0, 121000, 0, 0, 0]
+		]
+	},
+	{
+		"StartTime": 1263274033.812, 
+		"SamplingInterval": 3.0, 
+		"StaticLocation": { "X": 34.0132641, "Y": -118.4165829, "Z": null },
+		"ValueBlobFormat": [ "Time", "X", "Y", "Z", "RealPower 1", "Voltage 1", "Current 1", "PowerFactor 1", "ReactivePower 1" ],
+		"ValueBlob": [ 
+			[1265149450.5, null, null, null, 0, 121000, 0, 0, 0],
+			[1265149450.5, null, null, null, 0, 121000, 0, 0, 0],
+			[1265149450.5, null, null, null, 0, 121000, 0, 0, 0],
+			[1265149450.5, null, null, null, 0, 121000, 0, 0, 0],
+			[1265149450.5, null, null, null, 0, 121000, 0, 0, 0]
+		]
+	}
+
+],
+
+"APIKey": "-----BEGIN RSA PRIVATE KEY-----MIIEqQIBAAKCAQEArYowiHMdDo4A+CbY0KiFNLGhnM9deRMZJhcGZcCTmDHLktGbqKbssbvDiOu+FIjuIDo17s9QMvTuaaoERnc6ZH5iaH3CAVcjdbE75p665Fv8aJh+N8FQ3fjM2ed0JoueF+ktDApqzh4dzZSRwMoALWOYb9Zi6dq1cSuTN4eGdO05FiSxGEAdCEoPPCcDYMj+xGu3yubHSU69o5QdxJAstRGY2rRh3ruwNYyY5n50BkFZnxygizgC0I65uIt9OgoYhRQ4ztsZw1fPDsm0GTbvdYKhvNpsQdh12xxhQeqLYwSP80JBXj9ivWIj9aW3prd8MAhaJVyl0KaG9NibZmPawwIDAQABAoIBAQCVQrZbpibnzdunlEIHtepcWCvY48JR0Mtgp40pF2nbDXk63m4zsN8EP6r+qUTkBKJLtcWNkWI5cdFdsI3czc+7f7jEhuXGoVwubjJHOV8l6rg+fmqRKgST5trK0Phl7tAbYMMOCCe1ANJBb/etChD8+RyzlIGfAi3tGL2WlUpgZf3lfL5Wv56iXy9wJa6b3OpkVDq/bSwYP6UWY/4HgYQfLvQ5zVQwwscMALAvO0rXUTMT54oRZS3Co1RjM8A+8JKQpQ5WZBdQI4TdK0AOrmUJ4ShCqncJvN7a0L7poo9EFvPZJCS+4mEVznC14OW6eKbJIyh6LkFsmlTVxUPbwjyBAoIAgQDGZPuvEHLRZ85rbuV3SLUnq3/ziL8hUf2yuaH8PP4gAAF0ipC0sJ1Kl7q9+Cg3tJjjlGZ7/s1vPXuTtE/4BoBNl86+q1UCUR1PJzQWumJYha+dn9wplZMqQnfGNH0YzdX2litJh8WMbJmaRYlnO9XHVClUWmySWTUsRgbTxr5aJwKCAIEA3+22+oezw/OfPNaIsTgSEV6KZjZ+EVdBEX+9kuhvexUvcfPY6bgUHZxU0MIarU0+Uo7XbsWbe+w67+yBswp6hrBFQ4Pd9FRi85WwqKk/LDn8yfavqkZNr3noSRyJBR5YkEewl515VCJ/aCtqmDtdqvff9b7q3TV7YCHgH7B6KAUCggCAW47dDDTWGEgE3lXGdl9Koy0llpmkQ1dYcrPyyrrHOLNn+IW+NHVRkcwmNWeh/9tLt7OT/GNiIZVJQ6gyQ6+UZLrLgfkF+VS/5vibtGV934aKvn65F0PdL+KO7hzpIppTxUIWZg/Pnne8B5NRzx+xEBWKIVC9zGh4/p6upeuRi38CggCAARjH+agqgD40PHcMilms9PrSkLeZnHoh7nUCt7J9wUuUROmd2V82cgKvA6q/uLOVJ5Bdi8RaA5xfmYc+B2N4wCoi3LbLooO7TFgiWmEh1xSdoVuc9qeLf92H/ruuDCFe663+Nm/mBTx6BUeZKQ+5YLoAFdMOkXDOnuTrlRwnLQUCggCBAJaW4bTa4UUyyezqZ7fhfIVO3MHiVqr1gcap0t45uWHkzpUN+CdGtKMFFViZNPUhmpmEWMJUzv8BROzcue9xpg4pWqk6iFy4zDW61kLCPTv1kX+LwSoF3MYpz5JmIqhDY2KrzHGoCsBy8DDTq13aCoNonsiA8fGkh4O1gVyt/BxZ-----END RSA PRIVATE KEY-----"
+}
+

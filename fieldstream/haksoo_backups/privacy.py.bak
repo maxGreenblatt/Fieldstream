@@ -1,0 +1,208 @@
+import json
+import privparser
+import privacyDB
+
+# sudo apach2ctl graceful
+# cd /home/haksoo/spotlight/spotlightdb && python manage.py runserver 128.97.93.26:8080
+
+ROOT_PATH = '/home/max/spotlight/spotlightdb/fieldstream'
+DEBUG_TAG = '##PRIVACY##:'
+
+def log(things):
+	print DEBUG_TAG,
+	print things
+
+def convert_dot_to_tuples(dot_list):
+	tup_list = []
+	for str in dot_list:
+		str_part = str.partition('.')
+		tuple = (str_part[0], str_part[2])
+		tup_list.append(tuple)
+	return tup_list
+
+def get_sensor_channel_tuples_from_virtual_sensor(virtual_sensor_list):
+	dot_list = []
+	for virtual_sensor in virtual_sensor_list:
+		for vs_body in virtual_sensor.values():
+			dot_list.append(vs_body['SensorChannelName'])
+	return convert_dot_to_tuples(dot_list)
+
+def get_time_tuples_from_time_conds(time_conds):
+	print time_conds	
+	return []
+
+def get_loc_tuples_from_loc_conds(loc_conds):
+	print loc_conds
+	return []
+
+def get_search_conds_from_query(query):
+	search_conds = {}
+	search_conds['SensorOwnerName'] = query['SensorOwnerName']
+	if 'SensorName' in query:
+		search_conds['SensorName'] = query['SensorName']
+	else:
+		search_conds['SensorName'] = []
+	if 'SensorChannelName' in query:
+		search_conds['SensorChannelName'] = convert_dot_to_tuples(query['SensorChannelName'])
+	elif 'VirtualSensor' in query:
+		search_conds['SensorChannelName'] = get_sensor_channel_tuples_from_virtual_sensor(query['VirtualSensor'])
+	else:
+		search_conds['SensorChannelName'] = []
+	search_conds['Time'] = privparser.parse_time(query['Time'])
+	search_conds['Location'] = privparser.parse_location(query['Location'])
+
+	return search_conds
+'''
+def get_search_conds_from_rule(rule):
+	search_conds = {}
+	search_conds['SensorOwnerName'] = query['SensorOwnerName']
+	if 'SensorName' in query:
+		search_conds['SensorName'] = query['SensorName']
+	else:
+		search_conds['SensorName'] = []
+	if 'SensorChannelName' in query:
+		search_conds['SensorChannelName'] = convert_dot_to_tuples(query['SensorChannelName'])
+	elif 'VirtualSensor' in query:
+		search_conds['SensorChannelName'] = get_sensor_channel_tuples_from_virtual_sensor(query['VirtualSensor'])
+	else:
+		search_conds['SensorChannelName'] = []
+	search_conds['Time'] = privparser.parse_time(query['Time'])
+	search_conds['Location'] = privparser.parse_location(query['Location'])
+
+	return search_conds
+'''
+
+def find_applicable_rules(requestor, search_conds, rules):
+	'''
+	for i, cur_rule in enumerate(rules):
+		owner = rule.owner.username
+		rule = json_loads(cur_rule.rule)
+	
+		# check if search_conds['SensorOwnerName'] matchs rules[OwnerID].
+		if not search_conds['SensorOwnerName'] == owner:
+			del rules[i]
+			continue
+
+		# check if requestor is in rule[DataConsumer]
+		# --> ask Max,
+
+		# check if intersection of search_conds['SensorName']/['SensorChannelName'] and rule[Sensor] is not empty
+		if 'Sensor' in rule:
+			if 'SensorName' in rule['Sensor']:
+				
+			if 'SensorChannelName' in rule['Sensor']:
+
+
+		# check if AND(search_conds['Time'], rule[Time]) has something
+
+		# check if search_conds['Location'] and rule[Location] has common area
+
+		# return applicable rules
+	'''
+	return rules
+
+def reduce_search_conds(search_conds, rules):
+
+	return search_conds
+
+def do_action(rules, waveseg_list):
+	return waveseg_list
+
+def do_virtual_sensor(virt_sensor, waveseg_list):
+	return waveseg_list
+
+def process_privacy(requestor, query):
+	log('Start of process_privacy()')
+
+	# get query
+	query = query['Query']
+	#log(json.dumps(query, indent=4))
+
+
+	# Generate search condition dictionary from query
+	search_conds = get_search_conds_from_query(query)
+
+	print '----- search conditions -----'
+	print search_conds
+
+	# DBInterface:  Get a Rule list from the database.
+	rules = privacyDB.get_privacy_rules(requestor, search_conds['SensorOwnerName'], search_conds['SensorName'], search_conds['SensorChannelName'])
+	#
+	#	Returns:
+	# list of privacyRule object
+	#
+	# Argumetns:
+	# search_conds['SensorOwnerName']: just a string. e.g. 'max'
+	# search_conds['SensorName']: list of SensorName. e.g. ['Raritan 1', 'ShimmerDE89', ... ]
+	# search_conds['SensorChannelName']: list of tuple (SensorName, SensorChannelName). e.g. [ ('Raritan 1', 'RealPower 1'), ... ]
+	# when []: no condition.
+
+	print '----- returned rules -----'
+	print rules
+	#rules = []
+
+	# Find Rules that apply to current query 
+	# by comparing current search_conds and "Condition" key in each rules.
+	rules = find_applicable_rules(requestor, search_conds, rules)
+
+
+
+	# If there are matching rules,
+	if len(rules) is not 0:
+		# Reduce waveseg search criteria.
+		# by looking at rules with "Deny" action w/o "Value" condition.
+		search_conds = reduce_search_conds(search_conds, rules)
+
+	# If there is no search condition left,
+		# RETURN NULL
+
+
+
+	# DBInterface ###
+	# Get a WaveSeg list from the database with reduced search condition.
+	waveseg_list = privacyDB.get_wavesegs(search_conds['SensorOwnerName'], search_conds['SensorName'], search_conds['SensorChannelName'], search_conds['Time'], search_conds['Location'])
+	#
+	# Arguments: (True: inclusive, False: exclusive)
+	# search_conds['Time']: [ (start, T/F, end, T/F), ... ]
+	#   special cases: (start, T/F, None, T/F), (None, T/F, end, T/F)
+	#
+	# search_conds['Location']: [ (upperleft X, T/F, upperleft Y, T/F, bottomright X, T/F, bottomright Y, T/F, T/F), ... ]
+	#                 T/F at the end: whether it is NOT operator (True: NOT)
+	# when []: no condition.
+
+	print '----- returned waveseg_list -----'
+	print waveseg_list
+	#waveseg_list = []
+
+
+	# Perform "Action" part of each rules on the waveseg list.
+	# This will reduce or modify data within wave seg.
+	waveseg_list = do_action(rules, waveseg_list)
+
+
+
+	# Perform virtual sensor process.
+	if 'VirtualSensor' in query:
+		waveseg_list = do_virtual_sensor(query['VirtualSensor'], waveseg_list)
+
+
+
+	# Finally, return the final list of WaveSeg
+	log('Return from process_privacy()')
+	return waveseg_list
+
+# test script
+def main():
+	global ROOT_PATH
+	ROOT_PATH = '.'
+	filename = 'example_query2.json'
+	fp = open(filename, 'r')
+	query = json.load(fp)
+
+	ret_string = process_privacy(None, query)
+
+	print 'Return =', ret_string
+
+if __name__ == "__main__":
+	main()
+
